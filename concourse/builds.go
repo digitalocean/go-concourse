@@ -52,7 +52,7 @@ func (team *team) CreateJobBuild(pipelineName string, jobName string) (atc.Build
 	return build, err
 }
 
-func (team *team) Rebuild(pipelineName string, jobName string, buildNumber uint64) (atc.Build, error) {
+func (team *team) CreateRebuild(pipelineName string, jobName string, buildNumber uint64) (atc.Build, error) {
 	params := rata.Params{
 		"job_name":      jobName,
 		"pipeline_name": pipelineName,
