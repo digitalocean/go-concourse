@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/concourse/atc"
 	"github.com/concourse/go-concourse/concourse/internal"
@@ -56,7 +57,7 @@ func (team *team) Rebuild(pipelineName string, jobName string, buildNumber uint6
 		"job_name":      jobName,
 		"pipeline_name": pipelineName,
 		"team_name":     team.name,
-		"build_number":  buildNumber,
+		"build_number":  strconv.Itoa(int(buildNumber)),
 	}
 	var build atc.Build
 	err := team.connection.Send(internal.Request{
