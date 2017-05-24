@@ -51,6 +51,25 @@ func (team *team) CreateJobBuild(pipelineName string, jobName string) (atc.Build
 	return build, err
 }
 
+func (team *team) Rebuild(pipelineName string, jobName string, buildNumber uint64) (atc.Build, error) {
+	params := rata.Params{
+		"job_name":      jobName,
+		"pipeline_name": pipelineName,
+		"team_name":     team.name,
+		"build_number":  buildNumber,
+	}
+	var build atc.Build
+	err := team.connection.Send(internal.Request{
+		RequestName: atc.CreateRebuild,
+		Params:      params,
+	}, &internal.Response{
+		Result: &build,
+	})
+
+	return build, err
+
+}
+
 func (team *team) JobBuild(pipelineName, jobName, buildName string) (atc.Build, bool, error) {
 	if pipelineName == "" {
 		return atc.Build{}, false, NameRequiredError("pipeline")
