@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/concourse/atc"
 	"github.com/concourse/go-concourse/concourse/internal"
@@ -52,12 +51,9 @@ func (team *team) CreateJobBuild(pipelineName string, jobName string) (atc.Build
 	return build, err
 }
 
-func (team *team) CreateRebuild(pipelineName string, jobName string, buildNumber uint64) (atc.Build, error) {
+func (team *team) CreateRebuild(buildID string) (atc.Build, error) {
 	params := rata.Params{
-		"job_name":      jobName,
-		"pipeline_name": pipelineName,
-		"team_name":     team.name,
-		"build_number":  strconv.Itoa(int(buildNumber)),
+		"build_id": buildID,
 	}
 	var build atc.Build
 	err := team.connection.Send(internal.Request{
